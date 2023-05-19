@@ -1,13 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
-
+const cors = require('cors');
 const app = express();
 
 //default Middleware
 app.use(express.json({ extended: true })); // for postman //Used to parse JSON bodies
-//app.use(cors()); //Middleware for connect server and react (used for server connection with unknown url)
-//app.use(express.urlencoded({ extended: true })); //for send the data via form //Parse URL-encoded bodies
+app.use(cors()); //Middleware for connect server and react (used for server connection with unknown url)
+app.use(express.urlencoded({ extended: true })); //for send the data via form //Parse URL-encoded bodies
 //app.use(cookieParser());
 
 const port = process.env.PORT || 4000;

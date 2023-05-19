@@ -1,7 +1,21 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../../styles/header.css";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/features/userSlice";
+//import { useSelector } from "react-redux";
 
 const Header = () => {
+  //const state = useSelector((state) => state.user);
+
+  const token = localStorage.getItem("_token");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  //console.log("state", state);
+  const handleLogout = () => {
+    localStorage.removeItem("_token");
+    dispatch(logout());
+    navigate("/login");
+  };
   return (
     <>
       <div>
@@ -64,11 +78,23 @@ const Header = () => {
                     <span className="badge badge-danger">3</span>
                   </NavLink>
                 </li>
-                <li className="nav-item ml-md-3">
-                  <NavLink className="btn btn-primary" to="/login">
-                    <i className="bi bi-person-circle"></i> Log In
-                  </NavLink>
-                </li>
+                {!token ? (
+                  <li className="nav-item ml-md-3">
+                    <Link className="btn btn-primary" to="/login">
+                      <i className="bi bi-person-circle"></i> Log In
+                    </Link>
+                  </li>
+                ) : (
+                  <li className="nav-item ml-md-3">
+                    <Link
+                      className="btn btn-danger"
+                      to="/login"
+                      onClick={handleLogout}
+                    >
+                      LogOut
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

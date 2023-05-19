@@ -24,7 +24,7 @@ const login = async (req,res) => {
         const comparePassword = await bcrypt.compare(req.body.password, existingUser.password);
         if(!comparePassword) return res.send(failResponse("Email / Password is wrong"));
         //console.log("existingUser", existingUser);
-        const token = jwt.sign({id:existingUser._id}, process.env.JWT_SECRETE_KEY, {expiresIn:"1d"});
+        const token = jwt.sign({id:existingUser._id, role:existingUser.role}, process.env.JWT_SECRETE_KEY, {expiresIn:"1d"});
             res.send(successResponse("User Successfully Login", {existingUser, token}));
     } catch (error) {
         //console.log("error", error);

@@ -4,6 +4,8 @@ import Home from "../pages/Home";
 import Login from "../pages/auth/Login";
 import PageNotFound from "../pages/PageNotFound";
 import Register from "../pages/auth/Register";
+import UserDashboard from "../pages/user/UserDashboard";
+import AdminDashboard from "../pages/admin/AdminDashboard";
 
 export const routeList = [
   {
@@ -40,6 +42,20 @@ export const routeList = [
     isVisible: true,
     isAuth: false,
     accessRoles: [],
+  },
+  {
+    path: "/user/dashboard",
+    element: <UserDashboard />,
+    isVisible: true,
+    isAuth: true,
+    accessRoles: ["user"],
+  },
+  {
+    path: "/admin/dashboard",
+    element: <AdminDashboard />,
+    isVisible: true,
+    isAuth: true,
+    accessRoles: ["admin"],
   },
   {
     path: "*",

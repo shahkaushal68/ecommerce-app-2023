@@ -1,38 +1,59 @@
-import { useState } from "react";
-import { loginValidation } from "../../validation/loginValidation";
+import { useEffect, useState } from "react";
+import {
+  validateOnChangeSignIn,
+  validateOnSubmitSignIn,
+} from "../../validation/loginValidation";
+import { doLogin } from "../../actions/authAction";
+import { toast } from "react-toastify";
+
+import { setAuthHeader } from "../../utils/mainApi";
+import { useDispatch } from "react-redux";
+import { addLoginUserData } from "../../redux/features/userSlice";
 
 const useLoginForm = () => {
-  const [formValues, setFormValues] = useState({});
-  const [errors, setErrors] = useState({});
+  const [formValues, setFormValues] = useState({
+    email: "",
+    password: "",
+  });
+  const [errorMessages, setErrorMessages] = useState({});
 
-  console.log("errors", errors);
+  const dispatch = useDispatch();
+
+  //console.log("errors", errors);
+
+  useEffect(() => {}, []);
+
   const handleChange = (event) => {
-    event.persist();
-    let name = event.target.name;
-    let value = event.target.value;
-    loginValidation(name, value, errors);
+    const { name, value } = event.target;
+    const errors = validateOnChangeSignIn(name, value, errorMessages);
+    setErrorMessages(errors);
     setFormValues({
       ...formValues,
       [name]: value,
     });
   };
 
-  const handleSubmit = (event) => {
-    if (event) event.preventDefault();
-
-    if (
-      Object.keys(errors).length === 0 &&
-      Object.keys(formValues).length !== 0
-    ) {
-      console.log("formVal", formValues);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const errors = validateOnSubmitSignIn(formValues);
+    if (Object.keys(errors).length === 0) {
+      const loginResponse = await doLogin(formValues);
+      if (loginResponse.status === 200) {
+        //console.log("login response", loginResponse);
+        localStorage.setItem("_token", loginResponse?.data?.token);
+        await setAuthHeader(`Bearer ${loginResponse?.data?.token}`);
+        toast.success("Successfully Login");
+        dispatch(addLoginUserData());
+      } else {
+        toast.error(loginResponse.message);
+      }
     } else {
-      alert("There is an Error!");
+      setErrorMessages(errors);
     }
   };
   return {
     formValues,
-    errors,
-    setErrors,
+    errorMessages,
     handleChange,
     handleSubmit,
   };

@@ -1,12 +1,20 @@
 import { omit } from "lodash";
 import { emailRegex } from "../helpers/regex";
 
-export const validateOnChangeSignIn = (name, value, errorMessages) => {
+export const validateOnChangeRegister = (name, value, errorMessages) => {
   let errors = { ...errorMessages };
   const newErrors = omit(errors, "loginError");
   errors = newErrors;
   //console.log("errorMeg", errorMessages);
   switch (name) {
+    case "userName":
+      if (value === null || value === "" || value === undefined) {
+        errors.userNameError = "Username is required.";
+      } else {
+        const newErrors = omit(errors, "userNameError");
+        errors = newErrors;
+      }
+      break;
     case "email":
       if (value === null || value === "" || value === undefined) {
         errors.emailError = "Email is required.";
@@ -25,6 +33,22 @@ export const validateOnChangeSignIn = (name, value, errorMessages) => {
         errors = newErrors;
       }
       break;
+    case "phone":
+      if (value === null || value === "" || value === undefined) {
+        errors.phoneError = "Phone Number is required.";
+      } else {
+        const newErrors = omit(errors, "phoneError");
+        errors = newErrors;
+      }
+      break;
+    case "address":
+      if (value === null || value === "" || value === undefined) {
+        errors.addressError = "Address is required.";
+      } else {
+        const newErrors = omit(errors, "addressError");
+        errors = newErrors;
+      }
+      break;
     default:
       break;
   }
@@ -33,10 +57,15 @@ export const validateOnChangeSignIn = (name, value, errorMessages) => {
 
 // validate On Submit method SignIn
 
-export const validateOnSubmitSignIn = (value) => {
+export const validateOnSubmitRegister = (value) => {
   let errors = {};
   const email = value?.email;
   const password = value?.password;
+  const userName = value?.userName;
+
+  if (userName === null || password === "" || password === undefined) {
+    errors.userNameError = "Username is required.";
+  }
 
   if (email === null || email === "" || email === undefined) {
     errors.emailError = "This field is required.";
