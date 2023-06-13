@@ -1,0 +1,32 @@
+export const priceList = [
+    {
+        id:1,
+        name:"$0-20",
+        range:[0,20]
+    },
+    {
+        id:2,
+        name:"$21-40",
+        range:[21,40]
+    },
+    {
+        id:3,
+        name:"$41-60",
+        range:[41,60]
+    },
+    {
+        id:4,
+        name:"$61-80",
+        range:[61,80]
+    },
+    {
+        id:5,
+        name:"$81-100",
+        range:[81,100]
+    },
+    {
+        id:6,
+        name:"$101-more",
+        range:[101,9999]
+    }
+]

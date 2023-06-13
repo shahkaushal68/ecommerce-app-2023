@@ -9,6 +9,7 @@ app.use(express.json({ extended: true })); // for postman //Used to parse JSON b
 app.use(cors()); //Middleware for connect server and react (used for server connection with unknown url)
 app.use(express.urlencoded({ extended: true })); //for send the data via form //Parse URL-encoded bodies
 //app.use(cookieParser());
+app.use(express.static('public'));
 
 const port = process.env.PORT || 4000;
 
@@ -25,6 +26,10 @@ mongoose
 //app.use('/api', require("./routes/allRoutes"));
 app.use("/api", require("./routes"));
 
-app.listen(port, () => {
-  console.log(`Example app listening on ${process.env.DEV_MODE} mode on port ${port}`)
+app.listen(port, (error) => {
+  if(error){
+    throw error;
+  }else{
+    console.log(`Example app listening on ${process.env.DEV_MODE} mode on port ${port}`);
+  }
 })

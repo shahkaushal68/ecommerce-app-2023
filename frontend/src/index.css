@@ -1,0 +1,18 @@
+.action-button{
+    display: flex;
+    gap:10px;
+}
+.action-button a, .action-button button{
+    font-size: 14px;
+}
+.all-cats ul{
+    list-style-type: none;
+    padding-left: 0;
+}
+.all-cats ul li{
+    margin-bottom: 10px;
+}
+.productLisitng {
+    margin-bottom: 150px;
+    margin-top: 50px;
+}
